@@ -45,17 +45,19 @@ int main() {
 	//Similarly, we could play with it in an array
 	int arr[5] = {0};
 	arr[3] = 128;
-	cout << ((short*)arr)[6] << " " << ((short*)arr)[7] << endl;
+   
 	((short*)arr)[7] += 1;
-	cout << ((short*)arr)[6] << " " << ((short*)arr)[7] << endl;
-	cout << arr[3];
-	/* Surprisingly, arr[3] becomes 65664. How?????
-	If we expand arr[3] into bits,
-
-	|0000 0000 | 1000 0000 | 0000 0000 | 0000 0001|
-	<---((short*)arr)[6]--><---((short*)arr)[7]--->
 	
-
+   cout << arr[3];
+	/* Surprisingly, arr[3] becomes 65664 from 128. How?????
+	If we expand arr[3] into bits,
+   arr[3] : 80 00 00 00
+   If we do ((short*)arr)[7] += 1, arr[3] would change to
+   arr[3] : 80 00 01 00
+   However, it is stored as little endian format, which means the number we get is 0x 00 01 00 80 = 65664
+	
+   I have heard that this type of array manipulation is not recommended
+   , but it was a fun way to learn how pointers of difffernt types work.
 	*/
 	return 0;
 }
